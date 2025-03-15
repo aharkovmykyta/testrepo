@@ -2,26 +2,12 @@ import { useParams, useLoaderData, useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaMapMarker } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { const_jobs } from '../App';
 
-const JobPage = ({ deleteJob }) => {
+const JobPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const job = useLoaderData();
-
-  const onDeleteClick = (jobId) => {
-    const confirm = window.confirm(
-      'Are you sure you want to delete this listing?'
-    );
-
-    if (!confirm) return;
-
-    deleteJob(jobId);
-
-    toast.success('Job deleted successfully');
-
-    navigate('/jobs');
-  };
-
+  const job = const_jobs.jobs.find(job => job.id === id); 
   return (
     <>
       <section>
@@ -97,10 +83,4 @@ const JobPage = ({ deleteJob }) => {
   );
 };
 
-const jobLoader = async ({ params }) => {
-  const res = await fetch(`/api/jobs/${params.id}`);
-  const data = await res.json();
-  return data;
-};
-
-export { JobPage as default, jobLoader };
+export { JobPage as default };
